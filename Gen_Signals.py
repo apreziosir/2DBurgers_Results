@@ -14,26 +14,26 @@ fpath = '/media/toni/Apollo M100 USB3/Doctorado/Modelos/Burgers_2D/04_Corrected/
 folder = '170417_znegative/'
 fname = 'ZBurgers_'
 ext = '.dat'
+f1 = fpath + folder + fname
 
 # Variables de entrada
-tsteps      = 839                           # Pasos de tiempo
+puntos      = 5000
+tsteps      = 100                             # Pasos de tiempo
 xsel        = np.array([3.655, 20., 30.])     # Lineas de muestreo
 zsel        = np.array([0., -0.625, -1.25, -2.5, -5., -10., -15., -18.75, -20.])
 
 # Generando arreglo de almacenamiento de resultados
-u_raw = np.array([tsteps, len(xsel) * len(zsel)])
-w_raw = np.array([tsteps, len(xsel) * len(zsel)])
+coords = np.zeros([puntos, 2])
+u_raw = np.zeros([puntos, tsteps])
+w_raw = np.zeros([puntos, tsteps])
 
-# Loop sobre cadda archivo (paso de tiempo)
-for i in range(0, 1):
+# Cargando coordenadas al arreglo 
+coords = np.loadtxt(fpath + folder + fname + str(11).zfill(4) + ext, 
+                    skiprows = 3, usecols=(0, 1))
 
-    # Lectura de archivo de velocidades en tiempo i    
-    x = np.loadtxt(fpath + folder + fname + str(i + 10).zfill(4) + ext, 
-                   skiprows = 3)
-
-    # Iterando sobre x seleccionado 
-    for j in range(0, len(xsel)):
-        
-        # Extrayendo los valores de x necesarios
-        y = x[x[:,0] == 10.]
-        
+# Loop sobre pasos de tiempo considerados
+for i in range(0, tsteps):
+    f2 = f1 + str(i + 10).zfill(4) + ext
+    u_raw[:, i] = np.loadtxt(f2, skiprows = 3, usecols=[2])
+    w_raw[:, i] = np.loadtxt(f2, skiprows = 3, usecols=[3])
+    
