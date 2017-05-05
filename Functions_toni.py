@@ -11,12 +11,12 @@ import numpy as np
 
 def promedio(A):
     
-    x = np.zeros(A.shape[1])
+    x = np.zeros((1, A.shape[1]))
        
     if A.shape[0] > 1:
         
         for i in range(0, A.shape[1]):
-            x[i] = np.average(A[:,i])
+            x[0, i] = np.average(A[:,i])
     else: 
         x = A
         

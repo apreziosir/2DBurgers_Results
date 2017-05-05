@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
+
 """
 Created on Wed May  3 16:47:30 2017
 
@@ -65,6 +65,7 @@ w_sel = np.zeros((len(xsel) * len(zsel), u_raw.shape[1]))
 uu_sel = np.zeros((len(xsel) * len(zsel), u_raw.shape[1]))
 ww_sel = np.zeros((len(xsel) * len(zsel), u_raw.shape[1]))
 uw_sel = np.zeros((len(xsel) * len(zsel), u_raw.shape[1]))
+coords_sel = np.zeros((len(xsel) * len(zsel), 2))
 
 cont = 0
 
@@ -78,6 +79,7 @@ for i in range(0, len(xsel)):
         uu_prueba = uu_raw[uu_raw[:,0] == xsel[i]]
         ww_prueba = ww_raw[ww_raw[:,0] == xsel[i]]
         uw_prueba = uw_raw[uw_raw[:,0] == xsel[i]]
+        coords_prueba = coords[coords[:,0] == xsel[i]]
         
         # Seleccionando la coordenada z
         u_prueba = u_prueba[u_prueba[:,1] == zsel[j]]
@@ -85,6 +87,7 @@ for i in range(0, len(xsel)):
         uu_prueba = uu_prueba[uu_prueba[:,1] == zsel[j]]
         ww_prueba = ww_prueba[ww_prueba[:,1] == zsel[j]]
         uw_prueba = uw_prueba[uw_prueba[:,1] == zsel[j]]
+        coords_prueba = coords_prueba[coords_prueba[:,1] == zsel[j]]
         
         # Calculando el promedio de las columnas de las selecciones
         u_sel[cont,:] = promedio(u_prueba)
@@ -92,23 +95,35 @@ for i in range(0, len(xsel)):
         uu_sel[cont,:] = promedio(uu_prueba)
         ww_sel[cont,:] = promedio(ww_prueba)
         uw_sel[cont,:] = promedio(uw_prueba)
+        coords_sel[cont,:] = promedio(coords_prueba)
         
         # Borrando los arreglos de prueba para volver a iterar
-        del(u_prueba, w_prueba, uu_prueba, ww_prueba, uw_prueba)
+        del(u_prueba, w_prueba, uu_prueba, ww_prueba, uw_prueba, coords_prueba)
         
         # Actualizando valor del contador
         cont += 1        
+
+# Quitando las columnas de coordenadas de los arreglos seleccionados
+u_sel = u_sel[:, 2 : pasos + 2]
+w_sel = w_sel[:, 2 : pasos + 2]
+uu_sel = uu_sel[:, 2 : pasos + 2]
+ww_sel = ww_sel[:, 2 : pasos + 2]
+uw_sel = uw_sel[:, 2 : pasos + 2]
+
+# Borrando variables que no voy a usar mas (mucho espacio en memoria)
+del(cont, u_raw, w_raw, uu_raw, ww_raw, uw_raw)
         
 # Graficando señales de velocidad en profundidades seleccionadas (u)
-f, axarr = plt.subplots(len(zsel), 1)
-
+f, axarr = plt.subplots(len(zsel), 1, sharey=True, sharex=True)
+  
 for i in range(0, len(zsel)):
-    axarr[i, 0].plot(steps, u_sel[i, 2:pasos])
+    axarr[i].plot(steps, u_sel[len(zsel) - i - 1,:])
+    plt.yticks(fontsize=6)
+    
     if i == 0:
-        axarr[i, 0].set_title(r'\Velocity damping $cm/s$')
-
-## Fine-tune figure; hide x ticks for top plots and y ticks for right plots
-#plt.setp([a.get_xticklabels() for a in axarr[0, :]], visible=False)
-#plt.setp([a.get_yticklabels() for a in axarr[:, 1]], visible=False)
-
+        axarr[i].set_title(r'Velocity damping $(cm/s)$')
+        plt.ylim((-2., 2.))
+        plt.xlim((0, 120))
+        # plt.yticks(fontsize=6)
+   
 plt.show()
