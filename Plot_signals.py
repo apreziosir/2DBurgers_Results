@@ -117,13 +117,18 @@ del(cont, u_raw, w_raw, uu_raw, ww_raw, uw_raw)
 f, axarr = plt.subplots(len(zsel), 1, sharey=True, sharex=True)
   
 for i in range(0, len(zsel)):
+    
     axarr[i].plot(steps, u_sel[len(zsel) - i - 1,:])
-    plt.yticks(fontsize=6)
+    axarr[i].set_yticklabels(np.linspace(-2, 2, 3), fontsize=7.5) 
+    axarr[i].set_xticklabels(np.linspace(0, 120, 7), fontsize = 8.5)
+    axarr[i].set_aspect('auto')
+    axarr[i].grid(True)
     
     if i == 0:
-        axarr[i].set_title(r'Velocity damping $(cm/s)$')
+        axarr[i].set_title(r'Velocity damping $(cm/s)$', fontsize=10)
         plt.ylim((-2., 2.))
         plt.xlim((0, 120))
-        # plt.yticks(fontsize=6)
-   
+                
+plt.tight_layout(h_pad=0.5)  
+plt.savefig('U_damping.pdf')
 plt.show()
