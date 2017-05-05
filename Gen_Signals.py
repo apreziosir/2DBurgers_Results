@@ -45,29 +45,6 @@ for i in range(0, tsteps - 10):
     ww_raw[:, i] = np.loadtxt(f2, skiprows = 3, usecols=[5])
     uw_raw[:, i] = np.loadtxt(f2, skiprows = 3, usecols=[6])
     
-## Medias temporales de los valores arrojados por el programa
-#u_mean = np.zeros(puntos)
-#w_mean = np.zeros(puntos)
-#u_meana = np.zeros(puntos)
-#w_meana = np.zeros(puntos)
-#uu_mean = np.zeros(puntos) 
-#ww_mean = np.zeros(puntos)
-#uw_mean = np.zeros(puntos)
-#
-#for i in range(0, puntos):
-#    u_mean[i] = np.mean(u_raw[i,:])
-#    w_mean[i] = np.mean(w_raw[i,:])
-#    u_meana[i] = np.mean(np.absolute(u_raw[i,:]))
-#    w_meana[i] = np.mean(np.absolute(u_raw[i,:]))
-#    uu_mean[i] = np.mean(uu_raw[i,:])
-#    ww_mean[i] = np.mean(ww_raw[i,:])
-#    uw_mean[i] = np.mean(uw_raw[i,:])
-    
 # Saving raw files
-np.savez('u_raw', u_raw)
-np.savez('w_raw', w_raw)
-np.savez('uu_raw', uu_raw)
-np.savez('ww_raw', ww_raw)
-np.savez('uw_raw', uw_raw)
-
-# Saving mean values
+np.savez_compressed('compiled', array1=u_raw, array2=w_raw, array3=uu_raw, 
+                    array4=ww_raw, array5=uw_raw, array6=coords)
