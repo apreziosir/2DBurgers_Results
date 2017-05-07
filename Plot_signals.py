@@ -14,6 +14,7 @@ Antonio Preziosi-Ribero
 import numpy as np 
 from Functions_toni import promedio
 import matplotlib.pyplot as plt
+from Plotting_funct import damping
 
 # Importando los arreglo extraidos de los resultados para graficar las señales
 # Cambiar las carpetas de acuerdo con los datos que se van a graficar
@@ -110,25 +111,18 @@ uu_sel = uu_sel[:, 2 : pasos + 2]
 ww_sel = ww_sel[:, 2 : pasos + 2]
 uw_sel = uw_sel[:, 2 : pasos + 2]
 
+# Graficas de promedios espaciales de velocidades para las señales
+
+
 # Borrando variables que no voy a usar mas (mucho espacio en memoria)
 del(cont, u_raw, w_raw, uu_raw, ww_raw, uw_raw)
         
-# Graficando señales de velocidad en profundidades seleccionadas (u)
-f, axarr = plt.subplots(len(zsel), 1, sharey=True, sharex=True)
-  
-for i in range(0, len(zsel)):
-    
-    axarr[i].plot(steps, u_sel[len(zsel) - i - 1,:])
-    axarr[i].set_yticklabels(np.linspace(-2, 2, 3), fontsize=7.5) 
-    axarr[i].set_xticklabels(np.linspace(0, 120, 7), fontsize = 8.5)
-    axarr[i].set_aspect('auto')
-    axarr[i].grid(True)
-    
-    if i == 0:
-        axarr[i].set_title(r'Velocity damping $(cm/s)$', fontsize=10)
-        plt.ylim((-2., 2.))
-        plt.xlim((0, 120))
-                
-plt.tight_layout(h_pad=0.5)  
-plt.savefig('U_damping.pdf')
-plt.show()
+# Graficando señales de velocidad en profundidades seleccionadas
+f1, axarr = damping(u_sel, steps, zsel, 'u_damp')
+f2, axarr = damping(w_sel, steps, zsel, 'w_damp')
+f3, axarr = damping(uu_sel, steps, zsel, 'uu_damp')
+f4, axarr = damping(ww_sel, steps, zsel, 'ww_damp')
+f5, axarr = damping(uw_sel, steps, zsel, 'uw_damp')
+
+
+
