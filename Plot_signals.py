@@ -12,8 +12,8 @@ Antonio Preziosi-Ribero
 """
 
 import numpy as np 
-from Functions_toni import promedio
 import matplotlib.pyplot as plt
+from Functions_toni import promedio
 from Plotting_funct import damping
 
 # Importando los arreglo extraidos de los resultados para graficar las señales
@@ -47,6 +47,22 @@ del(datos)
 puntos = u_raw.shape[0]
 pasos = u_raw.shape[1]
 steps = np.linspace(0, tmax, u_raw.shape[1])
+
+# ==============================================================================
+# Sacando valores medios para poder hacer graficas mas tarde (añadido luego)
+# ==============================================================================
+u_medias = np.zeros(u_raw.shape[0])
+w_medias = np.zeros(w_raw.shape[0])
+uu_medias = np.zeros(uu_raw.shape[0])
+ww_medias = np.zeros(ww_raw.shape[0])
+uw_medias = np.zeros(uw_raw.shape[0])
+
+for i in range(0, u_raw.shape[0]):
+    u_medias[i] = np.average(u_raw[i,:])
+    w_medias[i] = np.average(w_raw[i,:])
+    uu_medias[i] = np.average(uu_raw[i,:])
+    ww_medias[i] = np.average(ww_raw[i,:])
+    uw_medias[i] = np.average(uw_raw[i,:])
 
 # ==============================================================================
 # Armando arreglos con velocidades
@@ -111,9 +127,55 @@ uu_sel = uu_sel[:, 2 : pasos + 2]
 ww_sel = ww_sel[:, 2 : pasos + 2]
 uw_sel = uw_sel[:, 2 : pasos + 2]
 
-# Graficas de promedios espaciales de velocidades para las señales
+# ==============================================================================
+# Graficas de promedios espaciales de velocidades para las señales con cálculo
+# Esto se hace con todos los x... al parecer no es muy refinado. 
+# ==============================================================================
+fig1 = plt.figure()
+ax1 = fig1.add_subplot(111)
+ax2 = ax1.twiny()
 
+ax1.plot(u_medias, coords[:, 1], 'red')
+ax1.plot(w_medias, coords[:, 1], 'orange')
+ax1.set_xlabel(r"Velocity $cm/s$")
+ax1.set_ylim(-20, 0.)
+ax1.set_xlim(-1.5, 1.5)
 
+ax2.plot(uu_medias, coords[:, 1], 'green')
+ax2.plot(ww_medias, coords[:, 1], 'blue')
+ax2.plot(uw_medias, coords[:, 1], 'purple')
+ax2.set_xlim(-2., 2.)
+ax2.set_xlabel(r"Velocity stresses $(cm/s)^2$")
+plt.savefig('Promedio_todos_puntos.pdf')
+plt.show()
+
+# ==============================================================================
+# Gráficas espaciales de vlocidades, pero solamente con los x seleccionados
+# Es lo mismo que la anterior, pero con emnos puntos para reducir incertidumbre
+# ==============================================================================
+u_med2 = np.zeros(len(zsel))
+w_med2 = np.zeros(len(zsel))
+uu_med2 = np.zeros(len(zsel)) 
+ww_med2 = np.zeros(len(zsel))
+uw_med2 = np.zeros(len(zsel))
+
+for i in range(0, len(zsel)):
+    t1 = (1/3) * (np.average(u_sel[i,:]) + np.average(u_sel[i + len(zsel),:]) +
+          np.average(u_sel[i + 2 * len(zsel), :]))
+    u_med2[i] = t1
+    t2 = (1/3) * (np.average(w_sel[i,:]) + np.average(w_sel[i + len(zsel),:]) +
+          np.average(w_sel[i + 2 * len(zsel), :]))
+    w_med2[i] = t2
+    t3 = (1/3) * (np.average(uu_sel[i,:]) + np.average(uu_sel[i + len(zsel),:]) +
+          np.average(uu_sel[i + 2 * len(zsel), :]))
+    uu_med2[i] = t3
+    t4 = (1/3) * (np.average(ww_sel[i,:]) + np.average(ww_sel[i + len(zsel),:]) +
+          np.average(ww_sel[i + 2 * len(zsel), :]))
+    ww_med2[i] = t4
+    t5 = (1/3) * (np.average(uw_sel[i,:]) + np.average(uw_sel[i + len(zsel),:]) +
+          np.average(uw_sel[i + 2 * len(zsel), :]))
+    uu_med2[i] = t5
+    
 # Borrando variables que no voy a usar mas (mucho espacio en memoria)
 del(cont, u_raw, w_raw, uu_raw, ww_raw, uw_raw)
         

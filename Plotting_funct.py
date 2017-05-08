@@ -37,3 +37,13 @@ def damping(vec, steps, zsel, name):
     plt.show()
 
     return(f1, axarr)
+
+# ==============================================================================
+# Funcion que grafica valores medios en la profundidad de cada una de las 
+# variables analizadas. 
+# ==============================================================================
+
+def graf_medias():
+    
+    
+    return(f1, axarr)

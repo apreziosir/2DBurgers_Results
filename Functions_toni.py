@@ -7,6 +7,7 @@ Antonio Preziosi-Ribero
 Mayo de 2017
 @author: toni
 """
+
 import numpy as np
 
 def promedio(A):
