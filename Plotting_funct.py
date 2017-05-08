@@ -5,6 +5,10 @@ Script con diferentes funciones para graficar los resultados de Burgers 2D.
 Se puede usar como ejemplo para algunas graficas futuras. 
 @author: toni
 """
+
+# ==============================================================================
+# Funcion que grafica la señal en profundidades seleccionadas
+# ==============================================================================
 import numpy as np
 import matplotlib.pyplot as plt
 
