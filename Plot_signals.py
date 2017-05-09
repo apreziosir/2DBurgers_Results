@@ -139,7 +139,7 @@ ax1.plot(u_medias, coords[:, 1], 'red')
 ax1.plot(w_medias, coords[:, 1], 'orange')
 ax1.set_xlabel(r"Velocity $cm/s$")
 ax1.set_ylim(-20, 0.)
-ax1.set_xlim(-1.5, 1.5)
+ax1.set_xlim(-2., 2)
 
 ax2.plot(uu_medias, coords[:, 1], 'green')
 ax2.plot(ww_medias, coords[:, 1], 'blue')
@@ -175,6 +175,24 @@ for i in range(0, len(zsel)):
     t5 = (1/3) * (np.average(uw_sel[i,:]) + np.average(uw_sel[i + len(zsel),:]) +
           np.average(uw_sel[i + 2 * len(zsel), :]))
     uu_med2[i] = t5
+    
+fig2 = plt.figure()
+ax1 = fig2.add_subplot(111)
+ax2 = ax1.twiny()
+
+ax1.plot(u_med2, zsel, 'red')
+ax1.plot(w_med2, zsel, 'orange')
+ax1.set_xlabel(r"Velocity $cm/s$")
+ax1.set_ylim(-20, 0.)
+ax1.set_xlim(-0.5, 0.5)
+
+ax2.plot(uu_med2, zsel, 'green')
+ax2.plot(ww_med2, zsel, 'blue')
+ax2.plot(uw_med2, zsel, 'purple')
+ax2.set_xlim(-0.5, 0.5)
+ax2.set_xlabel(r"Velocity stresses $(cm/s)^2$")
+plt.savefig('Promedio_seleccionados.pdf')
+plt.show()
     
 # Borrando variables que no voy a usar mas (mucho espacio en memoria)
 del(cont, u_raw, w_raw, uu_raw, ww_raw, uw_raw)
