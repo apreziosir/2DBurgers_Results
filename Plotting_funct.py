@@ -25,6 +25,7 @@ def damping(vec, steps, zsel, name):
     for i in range(0, len(zsel)):
         
         axarr[i].plot(steps, vec[len(zsel) - i - 1,:])
+
         axarr[i].set_yticklabels(np.linspace(u3, u2, 3), fontsize=7.5) 
         axarr[i].set_xticklabels(np.linspace(0, 120, 7), fontsize = 8.5)
         axarr[i].set_aspect('auto')
