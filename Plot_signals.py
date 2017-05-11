@@ -14,7 +14,7 @@ Antonio Preziosi-Ribero
 import numpy as np 
 import matplotlib.pyplot as plt
 from Functions_toni import promedio
-from Plotting_funct import damping
+from Plotting_funct import damping,damping2
 
 # Importando los arreglo extraidos de los resultados para graficar las señales
 # Cambiar las carpetas de acuerdo con los datos que se van a graficar
@@ -204,5 +204,10 @@ f3, axarr = damping(uu_sel, steps, zsel, 'uu_damp')
 f4, axarr = damping(ww_sel, steps, zsel, 'ww_damp')
 f5, axarr = damping(uw_sel, steps, zsel, 'uw_damp')
 
-
+# Graficando señales de velocidad en profundidades seleccionadas (ventana)
+f1, axarr = damping2(u_sel, steps, zsel, 'u_damp')
+f2, axarr = damping2(w_sel, steps, zsel, 'w_damp')
+f3, axarr = damping2(uu_sel, steps, zsel, 'uu_damp')
+f4, axarr = damping2(ww_sel, steps, zsel, 'ww_damp')
+f5, axarr = damping2(uw_sel, steps, zsel, 'uw_damp')
 
